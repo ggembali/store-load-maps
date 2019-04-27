@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -65,8 +66,24 @@ public class ArrayMap {
 		return map;
 	}
 
-	public void store(ArrayMap arrayMap, Writer writer) {
+	public void store(Map<String,String>[] arrayMaps, Writer writer) throws IOException {
+		for (int i = 0; i < arrayMaps.length; i++) {
+			writeMapToLine(arrayMaps[i],writer);
+			writer.write('\n');
+		}
+	}
 
+	private void writeMapToLine(Map<String,String> map, Writer writer) throws IOException {
+		Iterator<String> iterator = map.keySet().iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			writer.write(key);
+			writer.write('=');
+			writer.write(map.get(key));
+			if(iterator.hasNext()) {
+				writer.write(';');
+			}
+		}
 	}
 
 }

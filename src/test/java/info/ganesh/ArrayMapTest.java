@@ -26,7 +26,7 @@ public class ArrayMapTest {
 	}
 
 	@Test
-	public void shouldStoreArrayMapIntoAStream() {
+	public void shouldStoreArrayMapIntoAStream() throws IOException {
 		HashMap<String, String> map = new HashMap<String, String>() {
 			private static final long serialVersionUID = 1L;
 
@@ -36,11 +36,12 @@ public class ArrayMapTest {
 			}
 		};
 		
-		Map<String, String>[] arrayMapData = new HashMap[1];
+		Map<String, String>[] arrayMapData = new HashMap[2];
+		arrayMapData[0] = map;
 		arrayMapData[1] = map;
 		StringWriter writer = new StringWriter();
-		arrayMap.store(arrayMap, writer);
-		assertThat(writer.toString(),is("key1=value1;key2=value2"));
+		arrayMap.store(arrayMapData, writer);
+		assertThat(writer.toString(),is("key1=value1;key2=value2\nkey1=value1;key2=value2\n"));
 	}
 
 }
