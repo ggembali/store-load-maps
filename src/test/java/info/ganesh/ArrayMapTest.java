@@ -3,6 +3,7 @@ package info.ganesh;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -18,10 +19,10 @@ public class ArrayMapTest {
 	private ArrayMap arrayMap = new ArrayMap();
 
 	@Test
-	public void shouldLoadArrayMapFromGivenStream() {
-		inputStream = this.getClass().getResourceAsStream("sampleArrayMap");
-		HashMap<String, String>[] load = arrayMap.load(inputStream);
-		assertThat(load.length, is(3));
+	public void shouldLoadArrayMapFromGivenStream() throws IOException, WrongFormatException {
+		inputStream = this.getClass().getClassLoader().getResourceAsStream("sampleArrayMap");
+		Map<String, String>[] load = arrayMap.load(inputStream);
+		assertThat(load.length, is(2));
 	}
 
 	@Test
