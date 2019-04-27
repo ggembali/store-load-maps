@@ -21,35 +21,7 @@ public class ArrayMap {
 		List<Map> arrayListmaps = new ArrayList<>();
 
 		while(currentLine != null) {
-			Map<String, String> map = new HashMap<>();
-			byte[] bytes = currentLine.getBytes();
-			String key = null;
-			String value = null;
-			StringBuffer stringbuffer = new StringBuffer();
-			
-			for (int i = 0; i < bytes.length; i++) {
-				if(bytes[i] == '=') {
-					key = stringbuffer.toString();
-					stringbuffer = new StringBuffer();
-				}else if(bytes[i] == ';') {
-					value = stringbuffer.toString();
-					if(key == null || value == null) {
-						throw new WrongFormatException();
-					}else {
-						map.put(key, value);
-					}
-					stringbuffer = new StringBuffer();
-				}else {
-					stringbuffer.append((char)bytes[i]);
-				}
-			}
-			
-			value = stringbuffer.toString();
-			if(key == null || value == null) {
-				throw new WrongFormatException();
-			}else {
-				map.put(key, value);
-			}
+			Map<String, String> map = convertLineToMap(currentLine);
 			
 			arrayListmaps.add(map);
 			currentLine = bufferedReader.readLine();
@@ -58,6 +30,39 @@ public class ArrayMap {
 		Map<String,String>[] arrayMap = new HashMap[arrayListmaps.size()];
 		
 		return (Map[]) arrayListmaps.toArray(arrayMap);
+	}
+
+	private Map<String, String> convertLineToMap(String currentLine) throws WrongFormatException {
+		Map<String, String> map = new HashMap<>();
+		byte[] bytes = currentLine.getBytes();
+		String key = null;
+		String value = null;
+		StringBuffer stringbuffer = new StringBuffer();
+		
+		for (int i = 0; i < bytes.length; i++) {
+			if(bytes[i] == '=') {
+				key = stringbuffer.toString();
+				stringbuffer = new StringBuffer();
+			}else if(bytes[i] == ';') {
+				value = stringbuffer.toString();
+				if(key == null || value == null) {
+					throw new WrongFormatException();
+				}else {
+					map.put(key, value);
+				}
+				stringbuffer = new StringBuffer();
+			}else {
+				stringbuffer.append((char)bytes[i]);
+			}
+		}
+		
+		value = stringbuffer.toString();
+		if(key == null || value == null) {
+			throw new WrongFormatException();
+		}else {
+			map.put(key, value);
+		}
+		return map;
 	}
 
 	public void store(ArrayMap arrayMap, Writer writer) {
