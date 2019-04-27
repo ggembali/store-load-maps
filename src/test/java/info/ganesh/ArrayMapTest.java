@@ -43,5 +43,11 @@ public class ArrayMapTest {
 		arrayMap.store(arrayMapData, writer);
 		assertThat(writer.toString(),is("key1=value1;key2=value2\nkey1=value1;key2=value2\n"));
 	}
+	
+	@Test
+	public void shouldLoadFromString() throws WrongFormatException{
+		Map<String,String>[] load = arrayMap.load("key1=value1;key2=value2\nkeyA=valueA\n");
+		assertThat(load.length,is(2));
+	}
 
 }
